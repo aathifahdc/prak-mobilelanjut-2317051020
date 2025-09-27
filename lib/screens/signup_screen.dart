@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import 'dashboard_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   static const route = '/signup';
@@ -26,43 +27,43 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
-  // Komponen label wajib
+  // Label wajib (ada tanda bintang merah)
   Widget requiredLabel(String text) => Row(
-        children: [
-          Text(text, style: const TextStyle(fontSize: 13)),
-          const Text('*', style: TextStyle(color: Colors.red, fontSize: 13)),
-        ],
-      );
+    children: [
+      Text(text, style: const TextStyle(fontSize: 13)),
+      const Text('*', style: TextStyle(color: Colors.red, fontSize: 13)),
+    ],
+  );
 
-  // Tombol biru gradient (sama dengan login)
+  // Tombol utama (gradient biru)
   Widget primaryButton(String label, VoidCallback onTap) => GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: double.infinity,
-          height: 46,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
-            gradient: const LinearGradient(
-              colors: [Color(0xFF1E88FF), Color(0xFF207DFF)],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF1E88FF).withOpacity(0.25),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+    onTap: onTap,
+    child: Container(
+      width: double.infinity,
+      height: 46,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1E88FF), Color(0xFF207DFF)],
         ),
-      );
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1E88FF).withOpacity(0.25),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               // Logo
               Image.asset(
-                'assets/JustDuit.png', // samain dengan login
+                'assets/JustDuit.png', 
                 height: 80,
                 fit: BoxFit.contain,
               ),
@@ -87,10 +88,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Sign Up Now and Unlock the Power of Justduit',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -161,16 +159,42 @@ class _SignupScreenState extends State<SignupScreen> {
 
                     // Tombol Continue
                     primaryButton('Continue', () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Sign up success')),
-                      );
+                      if (_name.text.isEmpty ||
+                          _email.text.isEmpty ||
+                          _pass.text.isEmpty ||
+                          _confirm.text.isEmpty) {
+                        // Kalau ada field kosong
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Semua field wajib diisi!'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else if (_pass.text != _confirm.text) {
+                        // Kalau password beda
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Password dan konfirmasi tidak sama!',
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else {
+                        // Kalau valid → lanjut ke Dashboard
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Sign up success'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
 
-                      // Balik ke login setelah signup
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        LoginScreen.route,
-                        (route) => false,
-                      );
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          DashboardScreen.route,
+                          (route) => false,
+                        );
+                      }
                     }),
                     const SizedBox(height: 14),
 
@@ -178,7 +202,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     Center(
                       child: TextButton(
                         onPressed: () => Navigator.pushReplacementNamed(
-                            context, LoginScreen.route),
+                          context,
+                          LoginScreen.route,
+                        ),
                         child: const Text(
                           'Already have an account? Sign In',
                           style: TextStyle(fontSize: 13),

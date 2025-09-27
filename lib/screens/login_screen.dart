@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
+import 'dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';
@@ -37,10 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
             gradient: const LinearGradient(
-              colors: [
-                Color(0xFF1E88FF),
-                Color(0xFF207DFF),
-              ],
+              colors: [Color(0xFF1E88FF), Color(0xFF207DFF)],
             ),
             boxShadow: [
               BoxShadow(
@@ -138,14 +136,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 6),
                     primaryButton('Sign In Now', () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Sign In tapped')),
-                      );
+                      if (_email.text.isEmpty || _pass.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Email dan Password wajib diisi!'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          DashboardScreen.route,
+                          (route) => false,
+                        );
+                      }
                     }),
                     const SizedBox(height: 14),
                     Center(
                       child: TextButton(
-                        onPressed: () => Navigator.pushNamed(
+                        onPressed: () => Navigator.pushReplacementNamed(
                           context,
                           SignupScreen.route,
                         ),
