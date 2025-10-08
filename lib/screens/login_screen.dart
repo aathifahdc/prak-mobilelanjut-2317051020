@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
-import 'dashboard_screen.dart';
+import 'splash_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';
@@ -23,40 +23,40 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget requiredLabel(String text) => Row(
-        children: [
-          Text(text, style: const TextStyle(fontSize: 13)),
-          const Text('*', style: TextStyle(color: Colors.red, fontSize: 13)),
-        ],
-      );
+    children: [
+      Text(text, style: const TextStyle(fontSize: 13)),
+      const Text('*', style: TextStyle(color: Colors.red, fontSize: 13)),
+    ],
+  );
 
   Widget primaryButton(String label, VoidCallback onTap) => GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: double.infinity,
-          height: 46,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
-            gradient: const LinearGradient(
-              colors: [Color(0xFF1E88FF), Color(0xFF207DFF)],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF1E88FF).withOpacity(0.25),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+    onTap: onTap,
+    child: Container(
+      width: double.infinity,
+      height: 46,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1E88FF), Color(0xFF207DFF)],
         ),
-      );
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1E88FF).withOpacity(0.25),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Hi, Welcome Back to Justduit',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -146,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else {
                         Navigator.pushNamedAndRemoveUntil(
                           context,
-                          DashboardScreen.route,
+                          SplashScreen.route,
                           (route) => false,
                         );
                       }
